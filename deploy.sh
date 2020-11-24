@@ -1,3 +1,4 @@
+npm install
 
 
 # abort on errors
