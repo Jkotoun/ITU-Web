@@ -10,4 +10,4 @@ jobs:
           persist-credentials: false
 
       - name: Deploy 🚀
-        run: ./deploy.sh
+        run: sh ./deploy.sh
