@@ -1,4 +1,5 @@
 # itu-web
+Deployed on https://18nakedcowboys.github.io/ITU-Web/
 
 ## Project setup
 ```
