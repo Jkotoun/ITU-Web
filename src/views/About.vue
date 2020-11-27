@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { GetUser, User, Event, GetUserEvents } from "../modules/ApiModel";
 export default {
   data() {
