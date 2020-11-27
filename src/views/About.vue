@@ -1,20 +1,23 @@
 <template>
   <div class="about">
     <h1>Zadar</h1>
-    <p>{{ response }}</p>
+    <p>{{ user }}</p>
+    <p>{{ events }}</p>
   </div>
 </template>
 
-<script>
-import { GetUser } from "../modules/ApiModel";
+<script lang="ts">
+import { GetUser, User, Event, GetUserEvents } from "../modules/ApiModel";
 export default {
   data() {
     return {
-      response: String,
+      user: User,
+      events: [Event],
     };
   },
   async created() {
-    GetUser(1).then(user => (this.response = user));
+    await GetUser(1).then(user => (this.user = user));
+    GetUserEvents(this.user.id).then(events => (this.events = events));
   },
 };
 </script>
