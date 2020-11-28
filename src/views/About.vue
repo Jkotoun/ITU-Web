@@ -6,18 +6,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
 import { GetUser, User, Event, GetUserEvents } from "../modules/ApiModel";
-export default {
-  data() {
-    return {
-      user: User,
-      events: [Event],
-    };
-  },
+
+@Component
+export default class About extends Vue {
+  public user: User={} as User;
+  public events: Event[]=[];
+
+
   async created() {
-    await GetUser(1).then(user => (this.user = user));
+    await GetUser(1)
+      .then(user => (this.user = user));
     GetUserEvents(this.user.id).then(events => (this.events = events));
-  },
-};
+  }
+}
 </script>
