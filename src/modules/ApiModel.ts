@@ -20,14 +20,23 @@ export async function GetUser(id: number): Promise<User> {
   return user;
 }
 
+export async function GetUsers(): Promise<User[]> {
+  return fetch("https://ituapi.herokuapp.com/users/")
+    .then(response => response.json())
+    .then(data => data as User[]);
+}
+
 export async function GetEvents(): Promise<Event[]> {
   const types = await GetEventTypes();
+  const users = await GetUsers();
   return fetch(`https://ituapi.herokuapp.com/events/`)
     .then(response => response.json())
     .then(data => data as Event[])
     .then(events => {
       events.forEach(event => {
         event.eventTypeObj = types.find(a => a.id === event.eventType);
+        event.pilotObj = users.find(a=> a.id === event.pilotId);
+        event.escortObj = users.find(a=> a.id === event.escortId);
       });
       return events;
     });
@@ -67,7 +76,9 @@ export interface Event {
   meetPoint: string;
   startPoint: string;
   pilotId: number;
+  pilotObj: User|undefined;
   escortId: number;
+  escortObj: User|undefined;
   eventType: number;
   eventTypeObj: EventType | undefined;
   meetDate: string;
