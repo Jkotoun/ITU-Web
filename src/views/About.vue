@@ -12,14 +12,13 @@ import { GetUser, User, Event, GetUserEvents } from "../modules/ApiModel";
 
 @Component
 export default class About extends Vue {
-  public user: User={} as User;
-  public events: Event[]=[];
-
+  public user: User = {} as User;
+  public events: Event[] = [];
 
   async created() {
-    await GetUser(1)
-      .then(user => (this.user = user));
-    GetUserEvents(this.user.id).then(events => (this.events = events));
+    const userId = 1;
+    GetUser(userId).then(user => (this.user = user));
+    GetUserEvents(userId).then(events => (this.events = events));
   }
 }
 </script>
