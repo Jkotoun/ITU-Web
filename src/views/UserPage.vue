@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { GetUser, User, Event, GetUserEvents } from "../modules/ApiModel";
 import UserInfo from "../components/UserInfo.vue";
 import EventInfo from "../components/EventInfo.vue";
@@ -37,7 +37,12 @@ export default class UserPage extends Vue {
   public events: Event[] = [];
 
   async created() {
-    const userId = 1;
+    this.LoadData();
+  }
+
+  @Watch("$route")
+  async LoadData() {
+    const userId = parseInt(this.$route.params.id);
     GetUser(userId).then((user) => (this.user = user));
     GetUserEvents(userId).then((events) => (this.events = events));
   }
