@@ -10,6 +10,8 @@
           <b-nav-item to="/">Home</b-nav-item>
           <b-nav-item to="/User/1">Beneš</b-nav-item>
           <b-nav-item to="/User/2">Horák</b-nav-item>
+          <b-nav-item to="/Users">Uživatelé</b-nav-item>
+          <b-nav-item to="/Events">Lety</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>

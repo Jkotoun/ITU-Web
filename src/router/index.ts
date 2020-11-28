@@ -1,6 +1,9 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
+import Users from "../views/Users.vue";
+import Events from "../views/Events.vue";
+
 
 Vue.use(VueRouter);
 
@@ -9,6 +12,16 @@ const routes: Array<RouteConfig> = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/Users",
+    name: "Users",
+    component: Users,
+  },
+  {
+    path: "/Events",
+    name: "Events",
+    component: Events,
   },
   {
     path: "/User/:id",
