@@ -8,7 +8,7 @@ import { User } from "../modules/ApiModel";
 
 @Component({})
 export default class UserInfo extends Vue {
-  @Prop({ required: true }) user: User;
+  @Prop({ required: true }) user: any;
   get userData() {
     return [
       {
@@ -26,6 +26,22 @@ export default class UserInfo extends Vue {
       {
         Key: "Pozice",
         Value: this.user.typeObj?.displayString,
+      },
+      {
+        Key: "Celkem letů",
+        Value: this.user.eventCount,
+      },
+      {
+        Key: "Celkem zákazníků",
+        Value: this.user.customerCount,
+      },
+      {
+        Key: "První let",
+        Value: this.user.firstEventDate,
+      },
+      {
+        Key: "Poslední let",
+        Value: this.user.lastEventDate,
       },
     ];
   }

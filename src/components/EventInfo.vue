@@ -39,6 +39,10 @@ export default class EventInfo extends Vue {
       key: "escort",
       label: "Doprovod",
     },
+    {
+      key: "customerCount",
+      label: "Počet zákazníků",
+    },
   ];
   get eventData() {
     return this.events.map((event) => {
@@ -50,6 +54,7 @@ export default class EventInfo extends Vue {
         pilot: event.pilotObj?.name,
         escort: event.escortObj?.name,
         eventType: event.eventTypeObj?.displayString,
+        customerCount: event.customerCount,
       };
     });
   }

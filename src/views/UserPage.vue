@@ -58,9 +58,10 @@ import BarGraph from "../components/BarGraph.vue";
   },
 })
 export default class UserPage extends Vue {
-  public user: User = {} as User;
-  public events: Event[] = [];
-  public loaded = false;
+  user: User = {} as User;
+  userVM: any = {};
+  events: Event[] = [];
+  loaded = false;
 
   async created() {
     this.LoadData();
@@ -73,6 +74,23 @@ export default class UserPage extends Vue {
       ([user, events]) => {
         this.user = user;
         this.events = events;
+        this.userVM = user;
+        this.userVM.eventCount = this.events.length;
+        this.userVM.customerCount = this.events
+          .map((a) => a.customerCount)
+          .reduce((a, b) => a + b);
+        const sortedEvents = this.events.sort(
+          (a, b) =>
+            new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+        );
+        if (sortedEvents.length > 0) {
+          this.userVM.firstEventDate = new Date(
+            sortedEvents[0].startDate,
+          ).toLocaleDateString();
+          this.userVM.lastEventDate = new Date(
+            sortedEvents[sortedEvents.length - 1].startDate,
+          ).toLocaleDateString();
+        }
         this.loaded = true;
       },
     );
