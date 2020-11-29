@@ -27,7 +27,7 @@ export default class Users extends Vue {
     this.users = await GetUsers();
   }
 
-  RowClicked(record: User, index: number) {
+  RowClicked(record: User) {
     const route = this.$router.resolve(`user/${record.id}`);
     window.open(route.href, "_blank");
   }

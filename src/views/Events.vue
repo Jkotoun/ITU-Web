@@ -27,7 +27,7 @@ export default class Events extends Vue {
     this.events = await GetEvents();
   }
 
-  RowClicked(record: Event, index: number) {
+  RowClicked(record: Event) {
     const route = this.$router.resolve(`event/${record.id}`);
     window.open(route.href, "_blank");
   }

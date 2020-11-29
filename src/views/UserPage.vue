@@ -6,15 +6,28 @@
         <UserInfo class="info" :user="user" />
       </b-col>
       <b-col>
-        <b-row>
-          <b-col>
-            <BarGraph v-if="loaded" :data="escortEventsCountData" />
-          </b-col>
-          <b-col> </b-col>
-          <b-col> </b-col>
-          <b-col> </b-col>
-        </b-row>
-        <b-row> </b-row>
+        <div>
+          <b-row>
+            <b-col cols="6">
+              <h3>Lety na pozici</h3>
+              <BarGraph v-if="loaded" :data="escortEventsCountData" />
+            </b-col>
+            <b-col cols="6">
+              <h3>Lety ve dnech</h3>
+              <BarGraph v-if="loaded" :data="weekDayCounts" />
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col cols="6">
+              <h3>Lety v měsících</h3>
+              <BarGraph v-if="loaded" :data="monthsCounts" />
+            </b-col>
+            <b-col cols="6">
+              <h3>Zákazníci v měsících</h3>
+              <BarGraph v-if="loaded" :data="monthCustomers" />
+            </b-col>
+          </b-row>
+        </div>
       </b-col>
     </b-row>
     <b-row>
@@ -72,17 +85,70 @@ export default class UserPage extends Vue {
     return this.events.filter((a) => new Date(a.startDate) < new Date());
   }
 
-  get escortEventsCountData(): any {
-    const escortCount = this.events.filter((a) => a.escortId == this.user.id)
-      .length;
-    const pilotCount = this.events.filter((a) => a.pilotId == this.user.id)
+  get escortEventsCountData(): {} {
+    const escortCount = this.pastEvents.filter(
+      (a) => a.escortId == this.user.id,
+    ).length;
+    const pilotCount = this.pastEvents.filter((a) => a.pilotId == this.user.id)
       .length;
     return {
       labels: ["Jako doprovod", "Jako pilot"],
       datasets: [
         {
           data: [escortCount, pilotCount],
-          borderWidth: 1,
+        },
+      ],
+    };
+  }
+
+  get weekDayCounts(): {} {
+    const daysOfWeek = this.pastEvents.map((a) =>
+      new Date(a.startDate).getDay(),
+    );
+
+    const daysCount = Array(7).fill(0);
+    for (let i = 0; i < daysOfWeek.length; i++) {
+      daysCount[daysOfWeek[i]] += 1;
+    }
+    const days = ["Po", "Út", "St", "Čt", "Pá", "So", "Ne"];
+    return {
+      labels: days,
+      datasets: [
+        {
+          data: daysCount,
+        },
+      ],
+    };
+  }
+
+  get monthsCounts(): {} {
+    const months = this.pastEvents.map((a) => new Date(a.startDate).getMonth());
+
+    const monthsCounts = Array(12).fill(0);
+    for (let i = 0; i < months.length; i++) {
+      monthsCounts[months[i]] += 1;
+    }
+    return {
+      labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+      datasets: [
+        {
+          data: monthsCounts,
+        },
+      ],
+    };
+  }
+
+  get monthCustomers(): {} {
+    const monthsCounts = Array(12).fill(0);
+    this.pastEvents.forEach((event) => {
+      monthsCounts[new Date(event.startDate).getMonth()] += event.customerCount;
+    });
+
+    return {
+      labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+      datasets: [
+        {
+          data: monthsCounts,
         },
       ],
     };

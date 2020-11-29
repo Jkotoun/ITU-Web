@@ -85,4 +85,5 @@ export interface Event {
   startDate: string;
   customerPhone: string;
   description: string;
+  customerCount: number;
 }

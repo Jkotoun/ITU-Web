@@ -10,6 +10,7 @@ export default class BarGraph extends Mixins(Bar) {
   @Watch("data")
   drawChart() {
     const options = {
+      maintainAspectRatio: false,
       scales: {
         yAxes: [
           {
