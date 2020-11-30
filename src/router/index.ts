@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import Users from "../views/Users.vue";
-import Events from "../views/Events.vue";
+import Events from "../views/EventsPage.vue";
 
 
 Vue.use(VueRouter);

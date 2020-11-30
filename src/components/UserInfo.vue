@@ -23,10 +23,10 @@ export default class UserInfo extends Vue {
         Key: "E-mail",
         Value: this.user.email,
       },
-      {
-        Key: "Pozice",
-        Value: this.user.typeObj?.displayString,
-      },
+      // {
+      //   Key: "Pozice",
+      //   Value: this.user.typeObj?.displayString,
+      // },
       {
         Key: "Celkem letů",
         Value: this.user.eventCount,

@@ -1,8 +1,8 @@
-export async function GetUserType(id: number): Promise<UserType> {
-  return fetch("https://ituapi.herokuapp.com/user-types/" + id)
-    .then(response => response.json())
-    .then(data => data as UserType);
-}
+// export async function GetUserType(id: number): Promise<UserType> {
+//   return fetch("https://ituapi.herokuapp.com/user-types/" + id)
+//     .then(response => response.json())
+//     .then(data => data as UserType);
+// }
 
 export async function GetEventTypes(): Promise<EventType[]> {
   return fetch("https://ituapi.herokuapp.com/event-types/")
@@ -15,8 +15,8 @@ export async function GetUser(id: number): Promise<User> {
     .then(response => response.json())
     .then(data => data as User);
 
-  const UserType = await GetUserType(user.type);
-  user.typeObj = UserType;
+  // const UserType = await GetUserType(user.type);
+  // user.typeObj = UserType;
   return user;
 }
 
@@ -53,17 +53,17 @@ export async function GetUserEvents(userId: number): Promise<Event[]> {
 export interface User {
   id: number;
   name: string;
-  type: number;
-  typeObj: UserType | undefined;
+  // type: number;
+  // typeObj: UserType | undefined;
   phone: string;
   email: string;
 }
 
-interface UserType {
-  id: number;
-  key: string;
-  displayString: string;
-}
+// interface UserType {
+//   id: number;
+//   key: string;
+//   displayString: string;
+// }
 
 interface EventType {
   id: number;
@@ -86,4 +86,7 @@ export interface Event {
   customerPhone: string;
   description: string;
   customerCount: number;
+  registeredPilotIds: number[];
+  registeredEscortIds: number[];
+
 }

@@ -33,11 +33,11 @@
     <b-row>
       <b-col>
         <h2>Nadcházející lety</h2>
-        <EventInfo class="info" :events="futureEvents" />
+        <Events class="info" :events="futureEvents" />
       </b-col>
       <b-col>
         <h2>Proběhlé lety</h2>
-        <EventInfo class="info" :events="pastEvents" />
+        <Events class="info" :events="pastEvents" />
       </b-col>
     </b-row>
   </b-container>
@@ -47,13 +47,13 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { GetUser, User, Event, GetUserEvents } from "../modules/ApiModel";
 import UserInfo from "../components/UserInfo.vue";
-import EventInfo from "../components/EventInfo.vue";
+import Events from "../components/Events.vue";
 import BarGraph from "../components/BarGraph.vue";
 
 @Component({
   components: {
     UserInfo,
-    EventInfo,
+    Events,
     BarGraph,
   },
 })
