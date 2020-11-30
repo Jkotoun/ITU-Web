@@ -3,7 +3,7 @@
     <h1 class="my-4">{{ user.name }}</h1>
     <b-row class="my-5">
       <b-col>
-        <UserInfo class="info" :user="user" />
+        <UserInfo class="info" :user="userVM" />
       </b-col>
       <b-col>
         <div>

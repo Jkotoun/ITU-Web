@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import Users from "../views/Users.vue";
 import Events from "../views/EventsPage.vue";
+import Stats from "../views/StatsPage.vue";
 
 
 Vue.use(VueRouter);
@@ -22,6 +23,11 @@ const routes: Array<RouteConfig> = [
     path: "/Events",
     name: "Events",
     component: Events,
+  },
+  {
+    path: "/Stats",
+    name: "Stats",
+    component: Stats,
   },
   {
     path: "/User/:id",
