@@ -101,19 +101,7 @@ export default class UserPage extends Vue {
   }
 
   get escortEventsCountData(): {} {
-    const escortCount = this.pastEvents.filter(
-      (a) => a.escortId == this.user.id,
-    ).length;
-    const pilotCount = this.pastEvents.filter((a) => a.pilotId == this.user.id)
-      .length;
-    return {
-      labels: ["Jako doprovod", "Jako pilot"],
-      datasets: [
-        {
-          data: [escortCount, pilotCount],
-        },
-      ],
-    };
+    return Stats.escortEventsCountData(this.events, this.user.id);
   }
 
   get weekDayCounts(): {} {
