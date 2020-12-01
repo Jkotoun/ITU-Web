@@ -2,15 +2,23 @@
   <b-container fluid>
     <h1 class="my-4">Statistiky</h1>
     <b-row class="my-5">
-      <b-col>
-        <div>
-          <label for="example-datepicker">Choose a date</label>
-          <b-form-datepicker
-            id="example-datepicker"
-            v-model="value"
-          ></b-form-datepicker>
-          <p>Value: '{{ value }}'</p>
-        </div>
+      <b-col col offset="4" cols="2">
+        <label for="example-datepicker">Lety novější než:</label>
+        <b-form-datepicker
+          id="example-datepicker"
+          v-model="value"
+          locale="cs"
+        ></b-form-datepicker>
+      </b-col>
+      <b-col cols="2">
+        <b-form-group label="Stav letů:">
+          <b-form-checkbox-group
+            id="checkbox-group-1"
+            v-model="eventTypes"
+            :options="eventTypeOptions"
+            name="flavour-1"
+          ></b-form-checkbox-group>
+        </b-form-group>
       </b-col>
     </b-row>
     <b-row class="my-5">
@@ -36,7 +44,7 @@
     <b-row v-if="loaded">
       <b-col>
         <h2>Seznam letů</h2>
-        <Events class="info" :events="events" />
+        <Events class="info" :events="filteredEvents" />
       </b-col>
     </b-row>
   </b-container>
@@ -72,6 +80,13 @@ export default class StatsPage extends Vue {
   events: Event[] = [];
   loaded = false;
   value = "";
+  eventTypes = ["1", "2", "3", "4"];
+  eventTypeOptions = [
+    { text: "Naplánované", value: "1" },
+    { text: "Potvrzené", value: "2" },
+    { text: "Uskutečněné", value: "3" },
+    { text: "Zrušené", value: "4" },
+  ];
 
   async created() {
     this.LoadData();
@@ -89,16 +104,24 @@ export default class StatsPage extends Vue {
     });
   }
 
+  get filteredEvents(): Event[] {
+    return this.events.filter(
+      (a) =>
+        a.startDate > this.value &&
+        this.eventTypes.includes(a.eventType.toString()),
+    );
+  }
+
   get weekDayCounts(): {} {
-    return Stats.weekDayCounts(this.events);
+    return Stats.weekDayCounts(this.filteredEvents);
   }
 
   get monthsCounts(): {} {
-    return Stats.monthsCounts(this.events);
+    return Stats.monthsCounts(this.filteredEvents);
   }
 
   get userEvents(): {} {
-    return Stats.userEvents(this.events, this.users);
+    return Stats.userEvents(this.filteredEvents, this.users);
   }
 }
 </script>
