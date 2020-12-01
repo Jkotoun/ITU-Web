@@ -22,10 +22,6 @@
               <h3>Lety v měsících</h3>
               <BarGraph v-if="loaded" :data="monthsCounts" />
             </b-col>
-            <b-col cols="6">
-              <h3>Zákazníci v měsících</h3>
-              <BarGraph v-if="loaded" :data="monthCustomers" />
-            </b-col>
           </b-row>
         </div>
       </b-col>
@@ -49,6 +45,7 @@ import { GetUser, User, Event, GetUserEvents } from "../modules/ApiModel";
 import UserInfo from "../components/UserInfo.vue";
 import Events from "../components/Events.vue";
 import BarGraph from "../components/BarGraph.vue";
+import * as Stats from "../modules/Stats";
 
 @Component({
   components: {
@@ -120,56 +117,11 @@ export default class UserPage extends Vue {
   }
 
   get weekDayCounts(): {} {
-    const daysOfWeek = this.pastEvents.map((a) =>
-      new Date(a.startDate).getDay(),
-    );
-
-    const daysCount = Array(7).fill(0);
-    for (let i = 0; i < daysOfWeek.length; i++) {
-      daysCount[daysOfWeek[i]] += 1;
-    }
-    const days = ["Po", "Út", "St", "Čt", "Pá", "So", "Ne"];
-    return {
-      labels: days,
-      datasets: [
-        {
-          data: daysCount,
-        },
-      ],
-    };
+    return Stats.weekDayCounts(this.events);
   }
 
   get monthsCounts(): {} {
-    const months = this.pastEvents.map((a) => new Date(a.startDate).getMonth());
-
-    const monthsCounts = Array(12).fill(0);
-    for (let i = 0; i < months.length; i++) {
-      monthsCounts[months[i]] += 1;
-    }
-    return {
-      labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-      datasets: [
-        {
-          data: monthsCounts,
-        },
-      ],
-    };
-  }
-
-  get monthCustomers(): {} {
-    const monthsCounts = Array(12).fill(0);
-    this.pastEvents.forEach((event) => {
-      monthsCounts[new Date(event.startDate).getMonth()] += event.customerCount;
-    });
-
-    return {
-      labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-      datasets: [
-        {
-          data: monthsCounts,
-        },
-      ],
-    };
+    return Stats.monthsCounts(this.events);
   }
 }
 </script>

@@ -6,7 +6,7 @@
     @row-clicked="RowClicked"
     tbody-tr-class="row-clickable"
     :sort-by="'meetDate'"
-    :sort-desc="'true'"
+    sort-desc
   >
   </b-table>
 </template>
