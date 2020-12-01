@@ -1,6 +1,7 @@
 <template>
   <b-container fluid>
     <h1 class="my-4">Statistiky</h1>
+    <b-row class="my-5"> </b-row>
     <b-row class="my-5">
       <b-col>
         <div>
@@ -8,6 +9,10 @@
             <b-col cols="6">
               <h3>Lety ve dnech</h3>
               <BarGraph v-if="loaded" :data="weekDayCounts" />
+            </b-col>
+            <b-col cols="6">
+              <h3>Lety na zaměstnance</h3>
+              <BarGraph v-if="loaded" :data="userEvents" />
             </b-col>
           </b-row>
           <b-row>
@@ -23,10 +28,10 @@
         </div>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row v-if="loaded">
       <b-col>
         <h2>Seznam letů</h2>
-        <Events class="info" :events="event" />
+        <Events class="info" :events="events" />
       </b-col>
     </b-row>
   </b-container>
@@ -40,6 +45,7 @@ import {
   Event,
   GetUserEvents,
   GetEvents,
+  GetUsers,
 } from "../modules/ApiModel";
 import UserInfo from "../components/UserInfo.vue";
 import Events from "../components/Events.vue";
@@ -56,6 +62,7 @@ export default class StatsPage extends Vue {
   eventCount = 0;
   customerCount = 0;
 
+  users: User[] = [];
   events: Event[] = [];
   loaded = false;
 
@@ -64,12 +71,13 @@ export default class StatsPage extends Vue {
   }
 
   async LoadData() {
-    GetEvents().then((events) => {
+    Promise.all([GetUsers(), GetEvents()]).then(([users, events]) => {
       this.events = events;
       this.eventCount = this.events.length;
       this.customerCount = this.events
         .map((a) => a.customerCount)
         .reduce((a, b) => a + b);
+      this.users = users;
       this.loaded = true;
     });
   }
@@ -120,6 +128,30 @@ export default class StatsPage extends Vue {
       datasets: [
         {
           data: monthsCounts,
+        },
+      ],
+    };
+  }
+
+  get userEvents(): {} {
+    const userCounts: { [s: number]: number } = {};
+    this.users.forEach((user) => {
+      userCounts[user.id] = 0;
+    });
+    this.events.forEach((event) => {
+      if (event.pilotId) {
+        userCounts[event.pilotId] += 1;
+      }
+      if (event.escortId) {
+        userCounts[event.escortId] += 1;
+      }
+    });
+
+    return {
+      labels: this.users.sort((a) => a.id).map((a) => a.name),
+      datasets: [
+        {
+          data: Object.values(userCounts),
         },
       ],
     };
