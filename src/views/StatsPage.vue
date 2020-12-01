@@ -8,6 +8,7 @@
           id="example-datepicker"
           v-model="value"
           locale="cs"
+          reset-button
         ></b-form-datepicker>
       </b-col>
       <b-col cols="2">
