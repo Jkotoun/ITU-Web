@@ -3,9 +3,12 @@
     <h1 class="my-4">Uživatelé</h1>
     <b-table
       :items="users"
+      :fields="fields"
       hover
       @row-clicked="RowClicked"
       tbody-tr-class="row-clickable"
+      :sort-by="'id'"
+      sort-desc
     >
     </b-table>
   </b-container>
@@ -17,13 +20,31 @@ import { GetUsers, User } from "../modules/ApiModel";
 
 @Component
 export default class Users extends Vue {
-  public users: User[] = [];
+  users: User[] = [];
+  fields = [
+    {
+      key: "id",
+      label: "Id",
+      sortable: true,
+    },
+    {
+      key: "name",
+      label: "Jméno",
+      sortable: true,
+    },
+    {
+      key: "phone",
+      label: "Telefon",
+      sortable: true,
+    },
+    {
+      key: "email",
+      label: "E-mail",
+      sortable: true,
+    },
+  ];
 
   async created() {
-    this.LoadData();
-  }
-
-  async LoadData() {
     this.users = await GetUsers();
   }
 

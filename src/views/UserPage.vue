@@ -105,8 +105,8 @@ export default class UserPage extends Vue {
     } else {
       userVM.customerCount = 0;
       userVM.eventCount = 0;
-      userVM.firstEventDate = "";
-      userVM.lastEventDate = "";
+      userVM.firstEventDate = "Žádný let";
+      userVM.lastEventDate = "Žádný let";
     }
 
     return userVM;
