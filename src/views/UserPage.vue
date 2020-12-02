@@ -8,7 +8,7 @@
     </b-row>
     <b-row class="my-5">
       <b-col lg="4">
-        <UserInfo class="info" :user="userVM" />
+        <UserInfo v-if="loaded" :user="userVM" />
       </b-col>
       <b-col lg="2">
         <div class="chart-container">
@@ -61,7 +61,6 @@ import * as Stats from "../modules/Stats";
 })
 export default class UserPage extends Vue {
   user: User = {} as User;
-  userVM: any = {};
   events: Event[] = [];
   loaded = false;
   controlsValue = {
@@ -80,26 +79,37 @@ export default class UserPage extends Vue {
       ([user, events]) => {
         this.user = user;
         this.events = events;
-        this.userVM = user;
-        this.userVM.eventCount = this.events.length;
-        this.userVM.customerCount = this.events
-          .map((a) => a.customerCount)
-          .reduce((a, b) => a + b);
-        const sortedEvents = this.events.sort(
-          (a, b) =>
-            new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
-        );
-        if (sortedEvents.length > 0) {
-          this.userVM.firstEventDate = new Date(
-            sortedEvents[0].startDate,
-          ).toLocaleDateString();
-          this.userVM.lastEventDate = new Date(
-            sortedEvents[sortedEvents.length - 1].startDate,
-          ).toLocaleDateString();
-        }
+
         this.loaded = true;
       },
     );
+  }
+  get userVM(): {} {
+    const userVM = this.user as any;
+
+    userVM.eventCount = this.events.length;
+    if (userVM.eventCount) {
+      userVM.customerCount = this.events
+        .map((a) => a.customerCount)
+        .reduce((a, b) => a + b);
+      const sortedEvents = this.events.sort(
+        (a, b) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+      );
+      userVM.firstEventDate = new Date(
+        sortedEvents[0].startDate,
+      ).toLocaleDateString();
+      userVM.lastEventDate = new Date(
+        sortedEvents[sortedEvents.length - 1].startDate,
+      ).toLocaleDateString();
+    } else {
+      userVM.customerCount = 0;
+      userVM.eventCount = 0;
+      userVM.firstEventDate = "";
+      userVM.lastEventDate = "";
+    }
+
+    return userVM;
   }
 
   get filteredEvents(): Event[] {
