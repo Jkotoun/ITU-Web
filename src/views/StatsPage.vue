@@ -1,37 +1,41 @@
 <template>
   <b-container fluid>
-    <h1 class="my-4">Statistiky</h1>
+    <h1 class="my-4">Lety</h1>
     <b-row>
       <b-col lg="6" offset-lg="3">
         <EventsControl v-model="controlsValue" />
       </b-col>
     </b-row>
-    <b-row class="my-5">
-      <b-col>
-        <div>
-          <b-row>
-            <b-col>
-              <h3>Lety ve dnech</h3>
-              <BarGraph v-if="loaded" :data="weekDayCounts" />
-            </b-col>
-            <b-col>
-              <h3>Lety na zaměstnance</h3>
-              <BarGraph v-if="loaded" :data="userEvents" />
-            </b-col>
-            <b-col>
-              <h3>Lety v měsících</h3>
-              <BarGraph v-if="loaded" :data="monthsCounts" />
-            </b-col>
-          </b-row>
-        </div>
-      </b-col>
-    </b-row>
-    <b-row v-if="loaded">
-      <b-col>
-        <h2>Seznam letů</h2>
-        <Events class="info" :events="filteredEvents" />
-      </b-col>
-    </b-row>
+
+    <b-tabs>
+      <b-tab v-if="loaded" title="Seznam letů">
+        <b-col>
+          <Events class="info" :events="filteredEvents" />
+        </b-col>
+      </b-tab>
+      <b-tab title="Statistiky">
+        <b-row class="my-5">
+          <b-col>
+            <div>
+              <b-row>
+                <b-col>
+                  <h3>Lety ve dnech</h3>
+                  <BarGraph v-if="loaded" :data="weekDayCounts" />
+                </b-col>
+                <b-col>
+                  <h3>Lety na zaměstnance</h3>
+                  <BarGraph v-if="loaded" :data="userEvents" />
+                </b-col>
+                <b-col>
+                  <h3>Lety v měsících</h3>
+                  <BarGraph v-if="loaded" :data="monthsCounts" />
+                </b-col>
+              </b-row>
+            </div>
+          </b-col>
+        </b-row>
+      </b-tab>
+    </b-tabs>
   </b-container>
 </template>
 
