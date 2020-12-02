@@ -74,6 +74,7 @@ export default class Events extends Vue {
   get eventData() {
     return this.events.map((event) => {
       return {
+        id:event.id,
         startPoint: event.startPoint,
         meetPoint: event.meetPoint,
         meetDate: event.meetDate,
