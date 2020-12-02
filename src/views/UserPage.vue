@@ -12,7 +12,7 @@
           <b-row>
             <b-col cols="6">
               <h3>Lety na pozici</h3>
-              <BarGraph v-if="loaded" :data="escortEventsCountData" />
+              <DonutGraph v-if="loaded" :data="escortEventsCountData" />
             </b-col>
             <b-col cols="6">
               <h3>Lety ve dnech</h3>
@@ -44,6 +44,8 @@ import { GetUser, User, Event, GetUserEvents } from "../modules/ApiModel";
 import UserInfo from "../components/UserInfo.vue";
 import Events from "../components/Events.vue";
 import BarGraph from "../components/BarGraph.vue";
+import DonutGraph from "../components/DonutGraph.vue";
+
 import EventsControl from "../components/EventsControl.vue";
 import * as Stats from "../modules/Stats";
 
@@ -52,6 +54,7 @@ import * as Stats from "../modules/Stats";
     UserInfo,
     Events,
     BarGraph,
+    DonutGraph,
     EventsControl,
   },
 })
