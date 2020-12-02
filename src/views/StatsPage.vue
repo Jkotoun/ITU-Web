@@ -1,27 +1,7 @@
 <template>
   <b-container fluid>
     <h1 class="my-4">Statistiky</h1>
-    <b-row class="my-5">
-      <b-col col offset="4" cols="2">
-        <label for="example-datepicker">Lety novější než:</label>
-        <b-form-datepicker
-          id="example-datepicker"
-          v-model="value"
-          locale="cs"
-          reset-button
-        ></b-form-datepicker>
-      </b-col>
-      <b-col cols="2">
-        <b-form-group label="Stav letů:">
-          <b-form-checkbox-group
-            id="checkbox-group-1"
-            v-model="eventTypes"
-            :options="eventTypeOptions"
-            name="flavour-1"
-          ></b-form-checkbox-group>
-        </b-form-group>
-      </b-col>
-    </b-row>
+    <EventsControl v-model="controlsValue" />
     <b-row class="my-5">
       <b-col>
         <div>
@@ -64,6 +44,7 @@ import {
 import UserInfo from "../components/UserInfo.vue";
 import Events from "../components/Events.vue";
 import BarGraph from "../components/BarGraph.vue";
+import EventsControl from "../components/EventsControl.vue";
 import * as Stats from "../modules/Stats";
 
 @Component({
@@ -71,6 +52,7 @@ import * as Stats from "../modules/Stats";
     UserInfo,
     Events,
     BarGraph,
+    EventsControl,
   },
 })
 export default class StatsPage extends Vue {
@@ -80,14 +62,10 @@ export default class StatsPage extends Vue {
   users: User[] = [];
   events: Event[] = [];
   loaded = false;
-  value = "";
-  eventTypes = ["1", "2", "3", "4"];
-  eventTypeOptions = [
-    { text: "Naplánované", value: "1" },
-    { text: "Potvrzené", value: "2" },
-    { text: "Uskutečněné", value: "3" },
-    { text: "Zrušené", value: "4" },
-  ];
+  controlsValue = {
+    entriesDate: "",
+    eventTypes: ["1", "2", "3"],
+  };
 
   async created() {
     this.LoadData();
@@ -98,7 +76,7 @@ export default class StatsPage extends Vue {
       this.events = events;
       this.eventCount = this.events.length;
       this.customerCount = this.events
-        .map((a) => a.customerCount)
+        .map(a => a.customerCount)
         .reduce((a, b) => a + b);
       this.users = users;
       this.loaded = true;
@@ -107,9 +85,9 @@ export default class StatsPage extends Vue {
 
   get filteredEvents(): Event[] {
     return this.events.filter(
-      (a) =>
-        a.startDate > this.value &&
-        this.eventTypes.includes(a.eventType.toString()),
+      a =>
+        a.startDate > this.controlsValue.entriesDate &&
+        this.controlsValue.eventTypes.includes(a.eventType.toString()),
     );
   }
 
