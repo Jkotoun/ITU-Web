@@ -1,13 +1,12 @@
 <template>
   <div>
     <b-navbar toggleable="sm" type="dark" variant="info">
-      <b-navbar-brand href="#">NavBar</b-navbar-brand>
+      <b-navbar-brand to="/">Balónovač3000</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item to="/">Home</b-nav-item>
           <b-nav-item to="/Events">Lety</b-nav-item>
 
           <b-nav-item to="/Users">Uživatelé</b-nav-item>
