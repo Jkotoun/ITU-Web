@@ -1,6 +1,6 @@
 <template>
-  <b-row class="my-5">
-    <b-col col offset="4" cols="2">
+  <b-row>
+    <b-col>
       <label for="example-datepicker">Lety novější než:</label>
       <b-form-datepicker
         id="example-datepicker"
@@ -9,7 +9,7 @@
         reset-button
       ></b-form-datepicker>
     </b-col>
-    <b-col cols="2">
+    <b-col>
       <b-form-group label="Stav letů:">
         <b-form-checkbox-group
           id="checkbox-group-1"
@@ -28,6 +28,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 @Component
 export default class EventsControl extends Vue {
   @Prop({ required: true }) value: {};
+
   eventTypeOptions = [
     { text: "Naplánované", value: "1" },
     { text: "Potvrzené", value: "2" },

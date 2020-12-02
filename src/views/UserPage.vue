@@ -7,6 +7,8 @@
       </b-col>
       <b-col>
         <div>
+          <EventsControl v-model="controlsValue" />
+
           <b-row>
             <b-col cols="6">
               <h3>Lety na pozici</h3>
@@ -26,14 +28,11 @@
         </div>
       </b-col>
     </b-row>
+
     <b-row>
       <b-col>
-        <h2>Nadcházející lety</h2>
-        <Events class="info" :events="futureEvents" />
-      </b-col>
-      <b-col>
-        <h2>Proběhlé lety</h2>
-        <Events class="info" :events="pastEvents" />
+        <h2>Seznam letů</h2>
+        <Events class="info" :events="filteredEvents" />
       </b-col>
     </b-row>
   </b-container>
@@ -45,6 +44,7 @@ import { GetUser, User, Event, GetUserEvents } from "../modules/ApiModel";
 import UserInfo from "../components/UserInfo.vue";
 import Events from "../components/Events.vue";
 import BarGraph from "../components/BarGraph.vue";
+import EventsControl from "../components/EventsControl.vue";
 import * as Stats from "../modules/Stats";
 
 @Component({
@@ -52,6 +52,7 @@ import * as Stats from "../modules/Stats";
     UserInfo,
     Events,
     BarGraph,
+    EventsControl,
   },
 })
 export default class UserPage extends Vue {
@@ -59,6 +60,10 @@ export default class UserPage extends Vue {
   userVM: any = {};
   events: Event[] = [];
   loaded = false;
+  controlsValue = {
+    entriesDate: "",
+    eventTypes: ["1", "2"],
+  };
 
   async created() {
     this.LoadData();
@@ -74,7 +79,7 @@ export default class UserPage extends Vue {
         this.userVM = user;
         this.userVM.eventCount = this.events.length;
         this.userVM.customerCount = this.events
-          .map((a) => a.customerCount)
+          .map(a => a.customerCount)
           .reduce((a, b) => a + b);
         const sortedEvents = this.events.sort(
           (a, b) =>
@@ -93,23 +98,24 @@ export default class UserPage extends Vue {
     );
   }
 
-  get futureEvents(): Event[] {
-    return this.events.filter((a) => new Date(a.startDate) > new Date());
-  }
-  get pastEvents(): Event[] {
-    return this.events.filter((a) => new Date(a.startDate) < new Date());
+  get filteredEvents(): Event[] {
+    return this.events.filter(
+      a =>
+        a.startDate > this.controlsValue.entriesDate &&
+        this.controlsValue.eventTypes.includes(a.eventType.toString()),
+    );
   }
 
   get escortEventsCountData(): {} {
-    return Stats.escortEventsCountData(this.events, this.user.id);
+    return Stats.escortEventsCountData(this.filteredEvents, this.user.id);
   }
 
   get weekDayCounts(): {} {
-    return Stats.weekDayCounts(this.events);
+    return Stats.weekDayCounts(this.filteredEvents);
   }
 
   get monthsCounts(): {} {
-    return Stats.monthsCounts(this.events);
+    return Stats.monthsCounts(this.filteredEvents);
   }
 }
 </script>
