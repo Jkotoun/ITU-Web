@@ -50,6 +50,25 @@ export async function GetUserEvents(userId: number): Promise<Event[]> {
   );
 }
 
+
+
+export async function GetEvent(eventId: number): Promise<Event>{
+  const eventStates = await GetEventTypes();
+  const users = await GetUsers();
+  return fetch(`https://ituapi.herokuapp.com/events/` + eventId)
+  .then(response => response.json())
+  .then (data => data as Event)
+  .then (event => {
+    event.eventTypeObj = eventStates.find(state => state.id == event.eventType);
+    event.pilotObj = users.find(user => user.id == event.pilotId);
+    event.escortObj = users.find(user => user.id == event.escortId);
+    event.registeredEscortsObjArr = users.filter(user => event.registeredEscortIds.includes(user.id));
+    event.registeredPilotObjArr = users.filter(user => event.registeredPilotIds.includes(user.id));
+    return event;
+  })
+}
+
+
 export interface User {
   id: number;
   name: string;
@@ -87,6 +106,7 @@ export interface Event {
   description: string;
   customerCount: number;
   registeredPilotIds: number[];
+  registeredPilotObjArr: User[]|undefined;
   registeredEscortIds: number[];
-
+  registeredEscortsObjArr: User[]|undefined;
 }
