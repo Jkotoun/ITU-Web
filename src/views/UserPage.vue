@@ -1,30 +1,31 @@
 <template>
   <b-container fluid>
     <h1 class="my-4">{{ user.name }}</h1>
+    <b-row>
+      <b-col lg="6" offset-lg="3">
+        <EventsControl v-model="controlsValue" />
+      </b-col>
+    </b-row>
     <b-row class="my-5">
-      <b-col>
+      <b-col lg="4">
         <UserInfo class="info" :user="userVM" />
       </b-col>
-      <b-col>
-        <div>
-          <EventsControl v-model="controlsValue" />
-
-          <b-row>
-            <b-col cols="6">
-              <h3>Lety na pozici</h3>
-              <DonutGraph v-if="loaded" :data="escortEventsCountData" />
-            </b-col>
-            <b-col cols="6">
-              <h3>Lety ve dnech</h3>
-              <BarGraph v-if="loaded" :data="weekDayCounts" />
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col cols="6">
-              <h3>Lety v měsících</h3>
-              <BarGraph v-if="loaded" :data="monthsCounts" />
-            </b-col>
-          </b-row>
+      <b-col lg="2">
+        <div class="chart-container">
+          <h3>Lety na pozici</h3>
+          <DonutGraph v-if="loaded" :data="escortEventsCountData" />
+        </div>
+      </b-col>
+      <b-col lg="3">
+        <div class="chart-container">
+          <h3>Lety v měsících</h3>
+          <BarGraph v-if="loaded" :data="monthsCounts" />
+        </div>
+      </b-col>
+      <b-col lg="3">
+        <div class="chart-container">
+          <h3>Lety ve dnech</h3>
+          <BarGraph v-if="loaded" :data="weekDayCounts" />
         </div>
       </b-col>
     </b-row>
@@ -82,7 +83,7 @@ export default class UserPage extends Vue {
         this.userVM = user;
         this.userVM.eventCount = this.events.length;
         this.userVM.customerCount = this.events
-          .map(a => a.customerCount)
+          .map((a) => a.customerCount)
           .reduce((a, b) => a + b);
         const sortedEvents = this.events.sort(
           (a, b) =>
@@ -103,7 +104,7 @@ export default class UserPage extends Vue {
 
   get filteredEvents(): Event[] {
     return this.events.filter(
-      a =>
+      (a) =>
         a.startDate > this.controlsValue.entriesDate &&
         this.controlsValue.eventTypes.includes(a.eventType.toString()),
     );
@@ -126,5 +127,15 @@ export default class UserPage extends Vue {
 <style scoped>
 .info {
   margin: 1.4em 0;
+}
+
+.chart-container {
+  flex-grow: 1;
+  min-height: 0;
+  /* height: 200px; */
+}
+.chart-container div {
+  position: relative;
+  height: 100%;
 }
 </style>

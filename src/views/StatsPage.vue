@@ -1,7 +1,11 @@
 <template>
   <b-container fluid>
     <h1 class="my-4">Statistiky</h1>
-    <EventsControl v-model="controlsValue" />
+    <b-row>
+      <b-col lg="6" offset-lg="3">
+        <EventsControl v-model="controlsValue" />
+      </b-col>
+    </b-row>
     <b-row class="my-5">
       <b-col>
         <div>
@@ -32,15 +36,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-import {
-  GetUser,
-  User,
-  Event,
-  GetUserEvents,
-  GetEvents,
-  GetUsers,
-} from "../modules/ApiModel";
+import { Component, Vue } from "vue-property-decorator";
+import { User, Event, GetEvents, GetUsers } from "../modules/ApiModel";
 import UserInfo from "../components/UserInfo.vue";
 import Events from "../components/Events.vue";
 import BarGraph from "../components/BarGraph.vue";
@@ -76,7 +73,7 @@ export default class StatsPage extends Vue {
       this.events = events;
       this.eventCount = this.events.length;
       this.customerCount = this.events
-        .map(a => a.customerCount)
+        .map((a) => a.customerCount)
         .reduce((a, b) => a + b);
       this.users = users;
       this.loaded = true;
@@ -85,7 +82,7 @@ export default class StatsPage extends Vue {
 
   get filteredEvents(): Event[] {
     return this.events.filter(
-      a =>
+      (a) =>
         a.startDate > this.controlsValue.entriesDate &&
         this.controlsValue.eventTypes.includes(a.eventType.toString()),
     );

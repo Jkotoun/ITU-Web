@@ -1,7 +1,11 @@
 <template>
   <b-row>
     <b-col>
-      <label for="example-datepicker">Lety novější než:</label>
+      <label
+        style="font-size: 1.25rem; line-height: 1.5"
+        for="example-datepicker"
+        >Lety novější než:</label
+      >
       <b-form-datepicker
         id="example-datepicker"
         v-model="value.entriesDate"
@@ -10,7 +14,7 @@
       ></b-form-datepicker>
     </b-col>
     <b-col>
-      <b-form-group label="Stav letů:">
+      <b-form-group label-size="lg" label="Stav letů:">
         <b-form-checkbox-group
           id="checkbox-group-1"
           v-model="value.eventTypes"

@@ -14,7 +14,7 @@ export function escortEventsCountData(events: Event[], userId: number): {}
         datasets: [
             {
                 label: "Počet letů",
-                backgroundColor: colors[0],
+                backgroundColor: [colors[0], colors[1]],
 
                 data: [escortCount, pilotCount],
             },
