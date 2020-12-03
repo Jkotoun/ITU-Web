@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { User, Event, GetEvents, GetUsers } from "../modules/ApiModel";
 import UserInfo from "../components/UserInfo.vue";
 import Events from "../components/Events.vue";

@@ -34,12 +34,15 @@ export async function GetEvents(): Promise<Event[]> {
     .then(data => data as Event[])
     .then(events => {
       events.forEach(event => {
-        event.eventTypeObj = types.find(a => a.id === event.eventType);
-        event.pilotObj = users.find(a=> a.id === event.pilotId);
-        event.escortObj = users.find(a=> a.id === event.escortId);
+        event.eventTypeObj = types.find(a => a.id === event.eventType)
+        event.pilotObj = users.find(a=> a.id === event.pilotId)
+        event.escortObj = users.find(a=> a.id === event.escortId)
       });
       return events;
     });
+}
+export async function getEventsInDate(date: Date): Promise<Event[]>{
+    return GetEvents().then(events => events.filter(event => new Date(event.meetDate).getDate() == date.getDate()))
 }
 
 export async function GetUserEvents(userId: number): Promise<Event[]> {
@@ -51,6 +54,12 @@ export async function GetUserEvents(userId: number): Promise<Event[]> {
 }
 
 
+
+/*export async function getEventDates(date: Date): Promise<Date[]>{
+  return GetEvents()
+    .then(events => events.filter(event => new Date(event.startDate).getMonth() == date.getMonth()))
+    .then(events => events.map(event => new Date(event.startDate)));
+}*/
 
 export async function GetEvent(eventId: number): Promise<Event>{
   const eventStates = await GetEventTypes();

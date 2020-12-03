@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Home from "../views/Home.vue";
+import EventsCalendar from "../views/EventsCalendar.vue";
 import Users from "../views/Users.vue";
 import Events from "../views/EventsPage.vue";
 import EventPage from "../views/EventDetailsPage.vue"
@@ -10,8 +10,8 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    name: "Home",
-    component: Events,
+    name: "EventsCalendar",
+    component: EventsCalendar,
   },
   {
     path: "/Users",

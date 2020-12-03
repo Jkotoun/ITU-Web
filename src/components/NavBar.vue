@@ -7,6 +7,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
+          <b-nav-item to="/">Kalendář letů</b-nav-item>
           <b-nav-item to="/Events">Lety</b-nav-item>
 
           <b-nav-item to="/Users">Uživatelé</b-nav-item>
