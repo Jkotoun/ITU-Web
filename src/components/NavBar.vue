@@ -14,8 +14,8 @@
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
-          <b-nav-item v-if="LoggedUser!='null'" v-bind:to="`user/${LoggedUser}`">Beneš</b-nav-item>
-          <b-nav-item v-if="LoggedUser!='null'" @click="LoggedUser = 'null'">Odhlásit se</b-nav-item>
+          <b-nav-item v-if="LoggedUser!='null'" v-bind:to="`/user/${LoggedUser}`">Beneš</b-nav-item>
+          <b-nav-item v-if="LoggedUser!='null'" @click="logout()">Odhlásit se</b-nav-item>
           <b-nav-item v-else to="/login">Přihlásit se</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -30,15 +30,25 @@ import { Component,  Vue, Watch, Prop } from "vue-property-decorator";
 
 @Component
 export default class NavBar extends Vue {
-  loggedUser: string|null = ""
 
-  get LoggedUser()
-  {
-    return sessionStorage.getItem("logged_user")
-  }
-  set LoggedUser(value: string|null)
-  {
-    sessionStorage.setItem("logged_user", "null");
-  }
+    LoggedUser = ""
+    reload = false
+    async created()
+    {
+        this.LoadData();
+       
+    }
+    @Watch("reload")@Watch("$route")
+    async LoadData()
+    {
+      this.LoggedUser = String(sessionStorage.getItem("logged_user"));
+      this.reload = false
+    }
+
+    logout()
+    {
+      sessionStorage.setItem("logged_user", "null");
+      this.reload = true
+    }
 }
 </script>

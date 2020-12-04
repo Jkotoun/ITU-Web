@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue} from "vue-property-decorator";
+import { Component, Vue, Watch} from "vue-property-decorator";
 
 @Component
 export default class NavBar extends Vue {
@@ -22,7 +22,20 @@ export default class NavBar extends Vue {
    name = ""
    password = ""
    error = ""
-
+    async created()
+    {
+        this.LoadData();
+       
+    }
+   @Watch("$route")
+   async LoadData()
+   {
+       if(sessionStorage.getItem("logged_user") != "null")
+       {
+           const route = this.$router.resolve("/");
+           window.location.replace(route.href);
+       }
+   } 
    onSubmit()
    {
        this.error = ""
@@ -35,7 +48,6 @@ export default class NavBar extends Vue {
            sessionStorage.setItem("logged_user", "1")
            const route = this.$router.resolve("/");
            window.location.replace(route.href);
-            // location.reload();
        }
    }
   
