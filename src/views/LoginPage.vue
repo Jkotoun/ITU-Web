@@ -30,7 +30,7 @@ export default class NavBar extends Vue {
    @Watch("$route")
    async LoadData()
    {
-       if(sessionStorage.getItem("logged_user") != "null")
+       if(sessionStorage.getItem("logged_user") != null)
        {
            const route = this.$router.resolve("/");
            window.location.replace(route.href);
