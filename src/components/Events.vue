@@ -77,14 +77,14 @@ export default class Events extends Vue {
         id:event.id,
         startPoint: event.startPoint,
         meetPoint: event.meetPoint,
-        meetDate: event.meetDate,
-        startDate: event.startDate,
-        pilot: event.pilotObj?.name,
-        escort: event.escortObj?.name,
+        meetDate: (new Date(event.meetDate)).toLocaleString(),
+        startDate: (new Date(event.startDate)).toLocaleString(),
+        pilot: event.pilotObj?.name == undefined? "Nepřiřazen" : event.pilotObj.name,
+        escort: event.escortObj?.name == undefined ? "Nepřiřazen" : event.escortObj.name,
         eventType: event.eventTypeObj?.displayString,
         customerCount: event.customerCount,
-        pilotCount: event.registeredPilotIds.length,
-        escortCount: event.registeredEscortIds.length,
+        pilotCount: event.registeredPilotIds?.length,
+        escortCount: event.registeredEscortIds?.length,
       };
     });
   }

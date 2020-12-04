@@ -1,22 +1,25 @@
 <template>
     <b-container fluid>
-        <h2>Kalendář letů</h2>
-        <!-- <b-calendar locale="cs" selected-variant="primary" :date-info-fn="getEventsDates" no-highlight-today  hide-header no-key-nav ></b-calendar>-->
-
+        <h1 class="calendar-heading">Kalendář letů</h1>
         <b-row>
             <b-col>
                 <div class="events-info">
                     <h4>
                         <strong>Lety {{ selectedDate.toLocaleDateString() }}</strong>
                     </h4>
+                    <div class="event-data" v-if="eventsInDate.length == 0"><p>Žádné lety nejsou pro tento den naplánovány</p></div>
                     <div class="event-data" v-for="item in eventsInDate" :key="item.id">
-                        <p><strong>Čas odletu: {{new Date(item.startDate,).toLocaleTimeString()}}</strong></p>
+                        <p><strong>Čas odletu: {{new Date(item.startDate).toLocaleTimeString()}}</strong></p>
                         <p>Místo setkání: {{ item.meetPoint }}</p>
                         <p>Přihlášených pilotů: {{ item.registeredPilotIds.length }}</p><p>Přihlášených doprovodů: {{ item.registeredEscortIds.length }}</p>
                         <p><b-link v-bind:to="`event/${item.id}`">Další informace o letu</b-link></p>
-                        <div>
-                            <b-button variant="primary">Přhlásit se jako pilot</b-button>
-                            <b-button variant="secondary">Přihlásit se jako doprovod</b-button>
+                 
+                      
+                       <div v-show="loggedUser!='null'">
+                            <b-button v-if="!loggedAs(item.registeredPilotIds)" :disabled="loggedAs(item.registeredEscortIds)" variant="primary" @click="regEventAs(item.id, 0)">Přhlásit se jako pilot</b-button>
+                            <b-button v-if="loggedAs(item.registeredPilotIds)" variant="danger"  @click="logoutAs(item.id, 0)">Odhlásit z pozice pilot</b-button>
+                            <b-button v-if="!loggedAs(item.registeredEscortIds)" :disabled="loggedAs(item.registeredPilotIds)" variant="secondary"  @click="regEventAs(item.id, 1)" >Přihlásit se jako doprovod</b-button>
+                            <b-button v-if="loggedAs(item.registeredEscortIds)"  variant="danger"  @click="logoutAs(item.id, 1)">Odhlásit se z pozice doprovod</b-button>
                         </div>
                     </div>
                 </div>
@@ -38,6 +41,9 @@ import {
     getEventsInDate,
     Event,
     GetEvent,
+    role,
+    regAsPilotOrEscort,
+    logoutAsPilotOrEscort
 } from "../modules/ApiModel";
 
 @Component({})
@@ -45,15 +51,20 @@ export default class EventsCalendar extends Vue {
     selectedDate = new Date();
     eventsInDate: Event[] = [];
     eventsDates: Date[] = [];
-    async created() {
+    loggedUser = String(sessionStorage.getItem("logged_user"));
+    reload = true
+   async created() {
         this.LoadData();
     }
-    @Watch("selectedDate")
+    @Watch("selectedDate")@Watch("reload")
     async LoadData() {
+
         this.eventsInDate = await getEventsInDate(this.selectedDate);
         this.eventsDates = await GetEvents().then(events =>
             events.map(event => new Date(event.startDate)),
-        );   
+        );
+        this.loggedUser = String(sessionStorage.getItem("logged_user"));
+        this.reload = false;        
     }
     get attrs() {
         return [
@@ -66,9 +77,40 @@ export default class EventsCalendar extends Vue {
             },
         ];
     }
+    async regEventAs(eventId: number, role: role)
+    {
+        await regAsPilotOrEscort(role, eventId,parseInt(this.loggedUser));
+        this.reload = true;
+    }
+    async logoutAs(eventId: number, role: role)
+    {
+        await logoutAsPilotOrEscort(role, eventId, parseInt(this.loggedUser));
+        this.reload = true;
+    }
+    loggedAs(usrIds: number[]): boolean
+    {
+        if(this.loggedUser !== "null")
+        {
+            const usrId: number = parseInt(this.loggedUser); 
+           // console.log(parseInt(this.loggedUser));
+            for(let i = 0;i<usrIds.length;i++)
+            {
+                if(usrIds[i] == usrId)
+                {
+                    return true;
+                }
+            }
+            //return usrIds.includes(parseInt(this.loggedUser));
+        }  
+        return false
+    }
 }
 </script>
 <style>
+.calendar-heading
+{
+    padding:40px 0
+}
 button {
     margin-right: 10px;
 }
@@ -82,10 +124,6 @@ button {
 }
 .event-data {
     padding: 25px;
-}
-h2 {
-    text-align: left;
-    margin: 50px 125px;
 }
 a:hover {
     text-decoration: none;

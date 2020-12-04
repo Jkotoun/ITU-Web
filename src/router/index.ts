@@ -3,7 +3,8 @@ import VueRouter, { RouteConfig } from "vue-router";
 import EventsCalendar from "../views/EventsCalendar.vue";
 import Users from "../views/Users.vue";
 import Events from "../views/EventsPage.vue";
-import EventPage from "../views/EventDetailsPage.vue"
+import EventPage from "../views/EventDetailsPage.vue";
+import LoginPage from "../views/LoginPage.vue";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes: Array<RouteConfig> = [
     name: "event",
     component: EventPage,
 
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: LoginPage
   },
   {
     path: "/User/:id",
