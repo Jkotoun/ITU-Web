@@ -18,7 +18,7 @@
                        <div v-show="loggedUser!='null'">
                             <b-button v-if="!loggedAs(item.registeredPilotIds)" :disabled="loggedAs(item.registeredEscortIds)" variant="primary" @click="regEventAs(item.id, 0)">Přhlásit se jako pilot</b-button>
                             <b-button v-if="loggedAs(item.registeredPilotIds)" variant="danger"  @click="logoutAs(item.id, 0)">Odhlásit z pozice pilot</b-button>
-                            <b-button v-if="!loggedAs(item.registeredEscortIds)" :disabled="loggedAs(item.registeredPilotIds)" variant="secondary"  @click="regEventAs(item.id, 1)" >Přihlásit se jako doprovod</b-button>
+                            <b-button v-if="!loggedAs(item.registeredEscortIds)" :disabled="loggedAs(item.registeredPilotIds)" variant="primary"  @click="regEventAs(item.id, 1)" >Přihlásit se jako doprovod</b-button>
                             <b-button v-if="loggedAs(item.registeredEscortIds)"  variant="danger"  @click="logoutAs(item.id, 1)">Odhlásit se z pozice doprovod</b-button>
                         </div>
                     </div>
