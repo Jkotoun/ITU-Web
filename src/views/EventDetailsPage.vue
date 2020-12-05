@@ -4,7 +4,10 @@
         <h2 class="my-4">Let číslo {{event.id}}</h2>
         <b-row class="my-4">
             <b-col>
-                <b-table-lite :items="EventData" thead-class="d-none"></b-table-lite>
+                <div class="table_container">
+                    <b-skeleton-img v-if="loading" aspect="1:1"></b-skeleton-img>
+                    <b-table-lite :items="EventData" class="event-table" thead-class="d-none" v-else></b-table-lite>
+                </div>
             </b-col>
         </b-row>
     </b-container>
@@ -22,6 +25,7 @@ import {Event, GetEvent, GetUsers} from "../modules/ApiModel";
 export default class EventDetailsPage extends Vue
 {
     event: Event = {} as Event;
+    loading = false
    // registeredPilots: User[] = [];
     async created()
     {
@@ -30,8 +34,10 @@ export default class EventDetailsPage extends Vue
     @Watch("$route")
     async LoadData()
     {
+        this.loading = true
         const eventId = parseInt(this.$route.params.id);
         this.event = await GetEvent(eventId);
+        this.loading = false
     }
 
 
@@ -91,7 +97,22 @@ export default class EventDetailsPage extends Vue
 
 
 }
-
-
-
 </script>
+
+<style>
+    .table_container
+    {
+        max-width: 750px;
+        margin:0 auto;
+        text-align:left;
+    }
+    .event-table
+    {
+        width:100%;
+        border:1px solid #dee2e6 
+    }
+    td[aria-colindex="1"]
+    {
+        font-weight: 600;
+    }
+</style>
