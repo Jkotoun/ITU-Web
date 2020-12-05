@@ -8,35 +8,44 @@
     </b-row>
 
     <b-tabs>
-      <b-tab title="Statistiky">
+      <b-tab title="Seznam letů">
+        <b-col>
+          <Events class="info" :events="filteredEvents" />
+        </b-col>
+      </b-tab>
+      <b-tab title="Statistiky" lazy>
         <b-row class="my-5">
           <b-col>
             <div>
               <b-row>
                 <b-col lg="4">
                   <h3>Lety ve dnech</h3>
-                  <b-skeleton-img v-if="!loaded" aspect="1.3:1"></b-skeleton-img>
+                  <b-skeleton-img
+                    v-if="!loaded"
+                    aspect="1.3:1"
+                  ></b-skeleton-img>
                   <BarGraph v-if="loaded" :data="weekDayCounts" />
                 </b-col>
                 <b-col lg="4">
                   <h3>Lety na zaměstnance</h3>
-                  <b-skeleton-img v-if="!loaded" aspect="1.5:1"></b-skeleton-img>
+                  <b-skeleton-img
+                    v-if="!loaded"
+                    aspect="1.5:1"
+                  ></b-skeleton-img>
                   <BarGraph v-if="loaded" :data="userEvents" />
                 </b-col>
                 <b-col lg="4">
                   <h3>Lety v měsících</h3>
-                  <b-skeleton-img v-if="!loaded" aspect="1.2:1"></b-skeleton-img>s
+                  <b-skeleton-img
+                    v-if="!loaded"
+                    aspect="1.2:1"
+                  ></b-skeleton-img>
                   <BarGraph v-if="loaded" :data="monthsCounts" />
                 </b-col>
               </b-row>
             </div>
           </b-col>
         </b-row>
-      </b-tab>
-      <b-tab title="Seznam letů">
-        <b-col>
-          <Events v-if="loaded" class="info" :events="filteredEvents" />
-        </b-col>
       </b-tab>
     </b-tabs>
   </b-container>
@@ -80,7 +89,7 @@ export default class StatsPage extends Vue {
       this.events = events;
       this.eventCount = this.events.length;
       this.customerCount = this.events
-        .map(a => a.customerCount)
+        .map((a) => a.customerCount)
         .reduce((a, b) => a + b);
       this.users = users;
       this.loaded = true;
@@ -89,7 +98,7 @@ export default class StatsPage extends Vue {
 
   get filteredEvents(): Event[] {
     return this.events.filter(
-      a =>
+      (a) =>
         a.startDate > this.controlsValue.entriesDate &&
         this.controlsValue.eventTypes.includes(a.eventType.toString()),
     );
