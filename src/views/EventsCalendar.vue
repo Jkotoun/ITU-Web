@@ -7,19 +7,26 @@
                     <h4>
                         <strong>Lety {{ selectedDate.toLocaleDateString() }}</strong>
                     </h4>
-                    <div class="event-data" v-if="eventsInDate.length == 0"><p>Žádné lety nejsou pro tento den naplánovány</p></div>
-                    <div class="event-data" v-for="item in eventsInDate" :key="item.id">
-                        <p><strong>Čas odletu: {{new Date(item.startDate).toLocaleTimeString()}}</strong></p>
-                        <p>Místo setkání: {{ item.meetPoint }}</p>
-                        <p>Přihlášených pilotů: {{ item.registeredPilotIds.length }}</p><p>Přihlášených doprovodů: {{ item.registeredEscortIds.length }}</p>
-                        <p><b-link v-bind:to="`event/${item.id}`">Další informace o letu</b-link></p>
-                 
-                      
-                       <div v-show="loggedUser!='null'">
-                            <b-button v-if="!loggedAs(item.registeredPilotIds)" :disabled="loggedAs(item.registeredEscortIds)" variant="primary" @click="regEventAs(item.id, 0)">Přhlásit se jako pilot</b-button>
-                            <b-button v-if="loggedAs(item.registeredPilotIds)" variant="danger"  @click="logoutAs(item.id, 0)">Odhlásit z pozice pilot</b-button>
-                            <b-button v-if="!loggedAs(item.registeredEscortIds)" :disabled="loggedAs(item.registeredPilotIds)" variant="primary"  @click="regEventAs(item.id, 1)" >Přihlásit se jako doprovod</b-button>
-                            <b-button v-if="loggedAs(item.registeredEscortIds)"  variant="danger"  @click="logoutAs(item.id, 1)">Odhlásit se z pozice doprovod</b-button>
+                    <!--<b-skeleton-img v-if="!loaded" aspect="1.2:1"></b-skeleton-img>-->
+                    <div class="text-center spinner-container" v-if="!loaded">
+                        <b-spinner variant="primary" label="Spinning"></b-spinner>
+                    </div>
+                    <div class="visible_data" v-else>
+                        <div class="event-data" v-if="eventsInDate.length == 0"><p>Žádné lety nejsou pro tento den naplánovány</p></div>
+                        <div class="event-data" v-for="item in eventsInDate" :key="item.id">
+                            <p><strong>Čas odletu: {{new Date(item.startDate).toLocaleTimeString()}}</strong></p>
+                            <p>Místo setkání: {{ item.meetPoint }}</p>
+                            <p>Přihlášených pilotů: {{ item.registeredPilotIds.length }}</p><p>Přihlášených doprovodů: {{ item.registeredEscortIds.length }}</p>
+                            <p><b-link v-bind:to="`event/${item.id}`">Další informace o letu</b-link></p>
+                    
+                        
+                        <div v-show="loggedUser!='null'">
+                                <b-button v-if="!loggedAs(item.registeredPilotIds)" :disabled="loggedAs(item.registeredEscortIds)" variant="primary" @click="regEventAs(item.id, 0)">Přhlásit se jako pilot</b-button>
+                                <b-button v-if="loggedAs(item.registeredPilotIds)" variant="danger"  @click="logoutAs(item.id, 0)">Odhlásit z pozice pilot</b-button>
+                                <b-button v-if="!loggedAs(item.registeredEscortIds)" :disabled="loggedAs(item.registeredPilotIds)" variant="primary"  @click="regEventAs(item.id, 1)" >Přihlásit se jako doprovod</b-button>
+                                <b-button v-if="loggedAs(item.registeredEscortIds)"  variant="danger"  @click="logoutAs(item.id, 1)">Odhlásit se z pozice doprovod</b-button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -52,19 +59,22 @@ export default class EventsCalendar extends Vue {
     eventsInDate: Event[] = [];
     eventsDates: Date[] = [];
     loggedUser = String(sessionStorage.getItem("logged_user"));
-    reload = true
+    reload = false
+    loaded = false
    async created() {
         this.LoadData();
     }
     @Watch("selectedDate")@Watch("reload")
     async LoadData() {
+        this.loaded = false
+         Promise.all([getEventsInDate(this.selectedDate), GetEvents()]).then(([dateEvents, events]) => {
+            this.eventsInDate = dateEvents;
+            this.eventsDates = events.map(event => new Date(event.startDate));
+            this.loggedUser = String(sessionStorage.getItem("logged_user"));
+            this.reload = false;
+            this.loaded = true        
+         });
 
-        this.eventsInDate = await getEventsInDate(this.selectedDate);
-        this.eventsDates = await GetEvents().then(events =>
-            events.map(event => new Date(event.startDate)),
-        );
-        this.loggedUser = String(sessionStorage.getItem("logged_user"));
-        this.reload = false;        
     }
     get attrs() {
         return [
@@ -107,6 +117,16 @@ export default class EventsCalendar extends Vue {
 }
 </script>
 <style>
+.spinner-container
+{
+    padding:100px 0
+}
+.spinner-border
+{
+    width:4rem;
+    height:4rem;
+}
+
 .calendar-heading
 {
     padding:40px 0
