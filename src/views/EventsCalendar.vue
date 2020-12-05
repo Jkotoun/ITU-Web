@@ -69,7 +69,7 @@ export default class EventsCalendar extends Vue {
         this.loaded = false
          Promise.all([getEventsInDate(this.selectedDate), GetEvents()]).then(([dateEvents, events]) => {
             this.eventsInDate = dateEvents;
-            this.eventsDates = events.map(event => new Date(event.startDate));
+            this.eventsDates = events.map(event => new Date(event.meetDate));
             this.loggedUser = String(sessionStorage.getItem("logged_user"));
             this.reload = false;
             this.loaded = true        
