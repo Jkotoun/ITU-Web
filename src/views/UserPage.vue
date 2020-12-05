@@ -1,5 +1,6 @@
 <template>
   <b-container fluid>
+    <b-skeleton class="my-4" v-if="!loaded" width="15em" style="display:inline-block;" type="input"></b-skeleton>
     <h1 class="my-4">{{ user.name }}</h1>
     <b-row>
       <b-col lg="6" offset-lg="3">
