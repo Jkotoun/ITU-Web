@@ -15,14 +15,17 @@
               <b-row>
                 <b-col lg="4">
                   <h3>Lety ve dnech</h3>
+                  <b-skeleton-img v-if="!loaded" aspect="1.3:1"></b-skeleton-img>
                   <BarGraph v-if="loaded" :data="weekDayCounts" />
                 </b-col>
                 <b-col lg="4">
                   <h3>Lety na zaměstnance</h3>
+                  <b-skeleton-img v-if="!loaded" aspect="1.5:1"></b-skeleton-img>
                   <BarGraph v-if="loaded" :data="userEvents" />
                 </b-col>
                 <b-col lg="4">
                   <h3>Lety v měsících</h3>
+                  <b-skeleton-img v-if="!loaded" aspect="1.2:1"></b-skeleton-img>s
                   <BarGraph v-if="loaded" :data="monthsCounts" />
                 </b-col>
               </b-row>
@@ -77,7 +80,7 @@ export default class StatsPage extends Vue {
       this.events = events;
       this.eventCount = this.events.length;
       this.customerCount = this.events
-        .map((a) => a.customerCount)
+        .map(a => a.customerCount)
         .reduce((a, b) => a + b);
       this.users = users;
       this.loaded = true;
@@ -86,7 +89,7 @@ export default class StatsPage extends Vue {
 
   get filteredEvents(): Event[] {
     return this.events.filter(
-      (a) =>
+      a =>
         a.startDate > this.controlsValue.entriesDate &&
         this.controlsValue.eventTypes.includes(a.eventType.toString()),
     );

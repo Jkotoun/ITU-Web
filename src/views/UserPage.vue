@@ -8,23 +8,29 @@
     </b-row>
     <b-row class="my-5">
       <b-col lg="4">
+        <b-skeleton-table v-if="!loaded" :rows="7" :columns="2" :table-props="{ striped: false }"></b-skeleton-table>
         <UserInfo v-if="loaded" :user="userVM" />
       </b-col>
       <b-col lg="2">
         <div class="chart-container">
           <h3>Lety na pozici</h3>
+          <b-skeleton-img v-if="!loaded" aspect="2:3"></b-skeleton-img>
           <DonutGraph v-if="loaded" :data="escortEventsCountData" />
         </div>
       </b-col>
       <b-col lg="3">
         <div class="chart-container">
           <h3>Lety v měsících</h3>
+          <b-skeleton-img v-if="!loaded" aspect="1:1"></b-skeleton-img>
+
           <BarGraph v-if="loaded" :data="monthsCounts" />
         </div>
       </b-col>
       <b-col lg="3">
         <div class="chart-container">
           <h3>Lety ve dnech</h3>
+          <b-skeleton-img v-if="!loaded" aspect="1:1"></b-skeleton-img>
+
           <BarGraph v-if="loaded" :data="weekDayCounts" />
         </div>
       </b-col>
@@ -90,7 +96,7 @@ export default class UserPage extends Vue {
     userVM.eventCount = this.events.length;
     if (userVM.eventCount) {
       userVM.customerCount = this.events
-        .map((a) => a.customerCount)
+        .map(a => a.customerCount)
         .reduce((a, b) => a + b);
       const sortedEvents = this.events.sort(
         (a, b) =>
@@ -114,7 +120,7 @@ export default class UserPage extends Vue {
 
   get filteredEvents(): Event[] {
     return this.events.filter(
-      (a) =>
+      a =>
         a.startDate > this.controlsValue.entriesDate &&
         this.controlsValue.eventTypes.includes(a.eventType.toString()),
     );
