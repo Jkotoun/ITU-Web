@@ -1,10 +1,10 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import EventsCalendar from "../views/EventsCalendar.vue";
-import Users from "../views/Users.vue";
-import Events from "../views/EventsPage.vue";
-import EventPage from "../views/EventDetailsPage.vue";
-import LoginPage from "../views/LoginPage.vue";
+import EventsCalendar from "../views/EventsCalendarView.vue";
+import Users from "../views/UsersListView.vue";
+import Events from "../views/EventsListView.vue";
+import EventPage from "../views/EventDetailsView.vue";
+import LoginPage from "../views/LoginView.vue";
 
 Vue.use(VueRouter);
 
@@ -42,7 +42,7 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/UserPage.vue"),
+      import(/* webpackChunkName: "about" */ "../views/UserView.vue"),
   },
 ];
 
