@@ -1,3 +1,4 @@
+<!--Autor: Jiří Vlasák -->
 <script lang="ts">
 import { Component, Mixins, Prop, Watch } from "vue-property-decorator";
 import { Bar } from "vue-chartjs";

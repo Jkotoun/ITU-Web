@@ -1,3 +1,4 @@
+<!--Autor: Josef Kotoun -->
 <template>
   <div>
     <b-navbar toggleable="sm" type="dark" variant="info">

@@ -1,3 +1,4 @@
+<!--Autor: Jiří Vlasák -->
 <template>
   <div id="app">
     <NavBar />

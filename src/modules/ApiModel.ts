@@ -1,8 +1,4 @@
-// export async function GetUserType(id: number): Promise<UserType> {
-//   return fetch("https://ituapi.herokuapp.com/user-types/" + id)
-//     .then(response => response.json())
-//     .then(data => data as UserType);
-// }
+//Autoři: Josef Kotoun, Jiří Vlasák
 
 import { use } from "vue/types/umd";
 
@@ -125,17 +121,9 @@ export async function logoutAsPilotOrEscort(regAs: role, eventId: number, userId
 export interface User {
   id: number;
   name: string;
-  // type: number;
-  // typeObj: UserType | undefined;
   phone: string;
   email: string;
 }
-
-// interface UserType {
-//   id: number;
-//   key: string;
-//   displayString: string;
-// }
 
 interface EventType {
   id: number;

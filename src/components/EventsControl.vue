@@ -1,3 +1,4 @@
+<!--Autor: Jiří Vlasák -->
 <template>
   <b-row>
     <b-col>

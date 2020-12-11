@@ -1,3 +1,4 @@
+//Autor: Jiří Vlasák 
 import Vue from "vue";
 
 import BootstrapVue from "bootstrap-vue";

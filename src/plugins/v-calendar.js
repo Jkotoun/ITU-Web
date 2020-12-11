@@ -1,3 +1,4 @@
+//autor: Josef Kotoun
 import Vue from 'vue';
 import VCalendar from 'v-calendar';
 

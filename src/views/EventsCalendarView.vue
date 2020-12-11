@@ -1,3 +1,4 @@
+<!--Autor: Josef Kotoun -->
 <template>
     <b-container fluid>
         <h1 class="calendar-heading">Kalendář letů</h1>

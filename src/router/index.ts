@@ -1,3 +1,4 @@
+//Autoři: Josef Kotoun, Jiří Vlasák
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import EventsCalendar from "../views/EventsCalendarView.vue";

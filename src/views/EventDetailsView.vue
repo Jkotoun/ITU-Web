@@ -1,4 +1,4 @@
-
+<!--Autor: Josef Kotoun-->
 <template>
     <b-container fluid>
         <h2 class="my-4">Let číslo {{event.id}}</h2>

@@ -1,3 +1,4 @@
+<!--Autor: Jiří Vlasák -->
 <template>
   <b-container fluid>
     <h1 class="my-4">Uživatelé</h1>

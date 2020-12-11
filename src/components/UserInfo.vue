@@ -1,3 +1,4 @@
+<!--Autor: Jiří Vlasák -->
 <template>
   <b-table-lite :items="userData" thead-class="d-none"> </b-table-lite>
 </template>

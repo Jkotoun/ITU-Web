@@ -1,3 +1,4 @@
+<!--Autor: Jiří Vlasák -->
 <template>
   <b-container fluid>
     <b-skeleton class="my-4" v-if="!loaded" width="15em" style="display:inline-block;" type="input"></b-skeleton>

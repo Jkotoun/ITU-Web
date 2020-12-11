@@ -1,3 +1,4 @@
+//autor: Jiří Vlasák
 import { Event, User } from "./ApiModel";
 const colors = ["red", "blue", "yellow", "green"];
 
