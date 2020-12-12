@@ -5,7 +5,7 @@
         <b-row class="my-4">
             <b-col>
                 <div class="table_container">
-                    <b-skeleton-table v-if="loading"></b-skeleton-table>
+                    <b-skeleton-table v-if="loading" :rows="12" :columns="2"></b-skeleton-table>
                     <b-table-lite :items="EventData" class="event-table" thead-class="d-none" v-else></b-table-lite>
                 </div>
             </b-col>
