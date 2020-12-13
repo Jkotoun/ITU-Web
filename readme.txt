@@ -1,5 +1,5 @@
 Potřebné závislosti: 
-npm
+npm>=6.14.4 (otestováno na 6.14.4 a 7.0.3, na 5.8 nefunguje)
 
 Spuštění lokálního serveru:
 1. npm install
