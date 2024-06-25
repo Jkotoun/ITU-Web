@@ -1,5 +1,5 @@
 # itu-web
-Deployed on https://18nakedcowboys.github.io/ITU-Web/
+Baloons flights planning web app implemented in Vue.js
 
 ## Project setup
 ```
